@@ -1,43 +1,40 @@
-import { useEffect } from "react";
-import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/Addons.js";
-import Stats from "three/examples/jsm/libs/stats.module.js";
+import * as THREE from 'three'
+import { createRoot } from 'react-dom/client'
+import React, { useRef, useState } from 'react'
+import { Canvas, useFrame, ThreeElements } from '@react-three/fiber'
+import { OrbitControls } from 'three/examples/jsm/Addons.js'
+
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+
+export function Box(props: ThreeElements['mesh']) {
+    const meshRef = useRef<THREE.Mesh>(null!)
+    const [hovered, setHover] = useState(false)
+    const [active, setActive] = useState(false)
+    useFrame((state, delta) => (meshRef.current.rotation.x += delta))
+    return (
+      <mesh
+        {...props}
+        ref={meshRef}
+        scale={active ? 1.5 : 1}
+        onClick={(event) => setActive(!active)}
+        onPointerOver={(event) => setHover(true)}
+        onPointerOut={(event) => setHover(false)}>
+        <boxGeometry args={[1, 1, 1]} />
+        <meshStandardMaterial color={hovered ? 'hotpink' : '#2f74c0'} />
+      </mesh>
+    )
+}
 
 export function PrimerEscena() {
-  useEffect(() => {
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 96;
-
-    const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
-
-    const spotLight = new THREE.SpotLight(0xffffff);
-    spotLight.castShadow = true;
-    spotLight.position.set(0, 64, 32);
-    scene.add(spotLight);
-
-    const geometry = new THREE.BoxGeometry(16, 16, 16);
-    const material = new THREE.MeshNormalMaterial();
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
-
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-
-    const stats = new Stats();
-    document.body.appendChild(stats.dom);
-
-    const animate = () => {
-        // cube.rotation.x += 0.01;
-        // cube.rotation.y += 0.01;
-        stats.update();
-        controls.update();
-        renderer.render(scene, camera);
-        window.requestAnimationFrame(animate);
-    };
-    animate();
-  }, [])
+const root = createRoot(document.getElementById('root')!);
+root.render(
+    <Canvas>
+      <ambientLight intensity={Math.PI / 2} />
+      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} decay={0} intensity={Math.PI} />
+      <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
+      <Box position={[-1.2, 0, 0]} />
+      <Box position={[1.2, 0, 0]} />
+    </Canvas>
+)
 }
