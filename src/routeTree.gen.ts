@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as AcercaImport } from './routes/acerca'
 import { Route as IndexImport } from './routes/index'
+import { Route as ComponentesMostrarTextoImport } from './routes/componentes/MostrarTexto'
 
 // Create/Update Routes
 
@@ -25,6 +26,12 @@ const AcercaRoute = AcercaImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ComponentesMostrarTextoRoute = ComponentesMostrarTextoImport.update({
+  id: '/componentes/MostrarTexto',
+  path: '/componentes/MostrarTexto',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -46,6 +53,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AcercaImport
       parentRoute: typeof rootRoute
     }
+    '/componentes/MostrarTexto': {
+      id: '/componentes/MostrarTexto'
+      path: '/componentes/MostrarTexto'
+      fullPath: '/componentes/MostrarTexto'
+      preLoaderRoute: typeof ComponentesMostrarTextoImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -54,36 +68,41 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/acerca': typeof AcercaRoute
+  '/componentes/MostrarTexto': typeof ComponentesMostrarTextoRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/acerca': typeof AcercaRoute
+  '/componentes/MostrarTexto': typeof ComponentesMostrarTextoRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/acerca': typeof AcercaRoute
+  '/componentes/MostrarTexto': typeof ComponentesMostrarTextoRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/acerca'
+  fullPaths: '/' | '/acerca' | '/componentes/MostrarTexto'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/acerca'
-  id: '__root__' | '/' | '/acerca'
+  to: '/' | '/acerca' | '/componentes/MostrarTexto'
+  id: '__root__' | '/' | '/acerca' | '/componentes/MostrarTexto'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AcercaRoute: typeof AcercaRoute
+  ComponentesMostrarTextoRoute: typeof ComponentesMostrarTextoRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AcercaRoute: AcercaRoute,
+  ComponentesMostrarTextoRoute: ComponentesMostrarTextoRoute,
 }
 
 export const routeTree = rootRoute
@@ -97,7 +116,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/acerca"
+        "/acerca",
+        "/componentes/MostrarTexto"
       ]
     },
     "/": {
@@ -105,6 +125,9 @@ export const routeTree = rootRoute
     },
     "/acerca": {
       "filePath": "acerca.tsx"
+    },
+    "/componentes/MostrarTexto": {
+      "filePath": "componentes/MostrarTexto.tsx"
     }
   }
 }
