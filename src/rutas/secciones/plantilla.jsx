@@ -1,8 +1,8 @@
-import Menu from './routes/Menu.jsx'
+import Menu from '../menu/Menu.jsx'
 import { Outlet } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 
-import '../src/estilos/Paginas.css';
+import '../../estilos/App.css';
 
 function App() {
   return(

@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react'
 
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { bd } from '../../../firebase.jsx';
+import { bd } from '../../firebase/firebase.jsx';
 import { setDoc, updateDoc } from 'firebase/firestore';
 import { collection,getDocs, doc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
-import {EditorTexto} from '../../routes/secciones/EditorTexto.jsx';
+import {EditorTexto} from './EditorTexto.jsx';
 
 import '../../estilos/Menu.css';
 
 import parse from 'bibtex-parser';
-import MostrarTexto from '../../Componentes/MostrarTexto.jsx';
+import MostrarTexto from '../../componentes/MostrarTexto.jsx';
 
 import tinymce from 'tinymce/tinymce.min.js';
 //importamos js para convertir a base64
-import { convertirBase64 } from '../../Componentes/convertirBase64.js';
+import { convertirBase64 } from '../../componentes/convertirBase64.js';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -62,7 +62,6 @@ export default function Route(){
     //por ejemplo, /agregar/awards se convierte en awards
     tituloUbicacion = tituloUbicacion.pathname.split('/')[2];
 
-
     if (tituloUbicacion === '/') {
         tituloUbicacion = 'Home';
     } else if (tituloUbicacion === 'awards') {
@@ -85,7 +84,6 @@ export default function Route(){
 
     //para subir la foto de perfil
     const [file, setFile] = useState();
-
     
     String.prototype.hashCode = function() {
         var hash = 0, i, chr;
@@ -248,7 +246,7 @@ export default function Route(){
             setToken(usuario.accessToken);
             setNombre(usuario.displayName);
         }else{
-            navigate("/");
+            // navigate("/");
         }
         })
     }, []) 
@@ -675,7 +673,7 @@ export default function Route(){
                 <br/>
                 <br/>
                 </> 
-                : ubicacion == 'projects' || ubicacion == 'awards' ?
+                : ubicacion == 'experiencia' || ubicacion == 'awards' ?
                 <>
                     <EditorTexto/>
                     <textarea

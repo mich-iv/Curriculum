@@ -48,7 +48,7 @@ export function EditorTexto({initialValue}) {
       <>
         <Editor className='root'
             id='edit'
-            inline={false}
+            inline={true}
             tinymceScriptSrc={'tinymce/tinymce.min.js'}
             initialValue={initialValue}
             onInit={(evt, editor) => editorRef.current = editor}

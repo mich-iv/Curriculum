@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
-import {bd} from '../../firebase.jsx';
+import {bd} from '../firebase/firebase.jsx';
 import { collection, getDocs, orderBy, query} from "firebase/firestore";
 import {eliminar} from './opcionesRegistros.js';
 import SeccionesDerecha from './seccionesDerecha.jsx';
@@ -11,7 +11,7 @@ import { faEnvelope, faInfo } from '@fortawesome/free-solid-svg-icons';
 import { faOrcid, faResearchgate, faGoogleScholar } from '@fortawesome/free-brands-svg-icons';
 import 'tinymce/skins/content/default/content.min.css';
 
-import Informacion from '../routes/secciones/informacion.jsx';
+import Informacion from '../rutas/secciones/informacion.jsx';
 
 export function MostrarTexto (props) {
     const location = useLocation();
@@ -56,9 +56,9 @@ export function MostrarTexto (props) {
             const coleccion = collection(bd, ubicacion);
             var ordenarPor;
 
-            if(ubicacion === "students"){
+            if(ubicacion === "acerca"){
                 //si caemos en estudiantes, entonces ordenar por grado
-                ordenarPor = query(coleccion, orderBy("DATEADD", "asc"));
+                ordenarPor = query(coleccion, orderBy("texto", "asc"));
             }else if (ubicacion === "home"){
                 //si caemos en la página principal
                 //solo mostramos la informacion completa
@@ -83,6 +83,11 @@ export function MostrarTexto (props) {
             const docs = response.docs.map((doc) => {
                 const data = doc.data();
                 data.id = doc.id;
+                //aletorizar el id para evitar duplicados
+                data.id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+                
+                console.log((data.id));
+                
                 return data;
             })
             
@@ -333,20 +338,22 @@ export function MostrarTexto (props) {
                             si el arreglo trae el año repetido (''), entonces no muestres nada */,
 
                             // si trae datos (cualquier año), entonces muestra el h2 con el año
+
                             (contenidoAnios[key].key.length > 0) ? 
                             <h2 className="subtitulos" key={value.YEAR} id={"titulo"+contenidoAnios[key].key}><b>{contenidoAnios[key].key}</b></h2> : '',
                             //desplegamos parrafo con la información acomodada
                             <div key={value.id} id={value.id}>
                                 {location.pathname.endsWith('code') || location.pathname.endsWith('projects') || location.pathname.endsWith('awards') ? null : <label>{"["+(parseInt(key)+1)+"] "}</label>}
                                 {/* si traemos texto, entonces mostrar primero */}
-                                {location.pathname.endsWith('bookChapters') ? 
+                                {location.pathname.endsWith('acerca') ? 
                                 <>
+                                    
                                     {/* 
                                     si valor(value.AUTHOR) es diferente de vacío o undefined, entonces ("?")
                                     muestra lo que trae,
                                     si no (else, o dos puntos ":"), no muestres nada ('') 
                                     */}
-                                    {value.AUTHOR !== undefined  ? (value.AUTHOR  + ", ") : 'Unknown author, ' }
+                                    {value.texto !== undefined  ? (value.texto  + ", ") : 'Unknown author, ' }
                                     {value.TITLE !== undefined  ? ("\"" + value.TITLE + ",\" ") : ''}
                                     {value.BOOKTITLE !== undefined || value.JOURNAL !== undefined ? ("in ") : ''}
                                     {/* aquí pregunto que si trae booktitle lo ponga, si no, que ponga journal */}
@@ -390,10 +397,10 @@ export function MostrarTexto (props) {
                                     {value.TEXT !== undefined ? "" : ""}
                                     <label key={"url"+value.URL}>{value.TEXT !== undefined ? "" : "Available at: "}</label><a className="texto-link" key={value.URL} href={value.URL} target="_blank" title={'CLick to open \"'+value.TITLE+'\" in a new tab.'}>{value.URL}</a>
                                 </>
-                                : location.pathname.endsWith('books') ? 
+                                : location.pathname.endsWith('acerca') ? 
                                 value.TEXT !== undefined ? (value.MONTH + ", " + value.TEXT) + '' :
                                 <>
-                                    {value.AUTHOR !== undefined  ? (value.AUTHOR  + ", ") : 'Unknown author, '}
+                                    {value.TEXTO !== undefined  ? (value.TEXTO  + ", ") : 'Unknown author, '}
                                     <i>{value.TITLE !== undefined  ? ("\"" + value.TITLE + ",\" ") : ''}</i>
                                     {value.EDITION !== undefined  ? (value.EDITION  + ", ") : ''}
                                     {value.LOCATION !== undefined  ? (value.LOCATION  + ": ") : ''}
@@ -415,13 +422,19 @@ export function MostrarTexto (props) {
                                     </label>
                                     {/* {value.IMAGE !== undefined ? <a className='columnas-contenido-img' href={value.GITHUB} title="Click to view on GitHub" target="_blank"><img className="imagenGithub" src={`data:image/jpg;base64,${value.IMAGE}`} /></a> : ''} */}
                                 </>
-                                : location.pathname.endsWith('projects') || location.pathname.endsWith('awards') ?
+                                : location.pathname.endsWith('acerca') || location.pathname.endsWith('awards') ?
                                 <>
-                                    {value.EDITORTEXT !== undefined ? parse(value.EDITORTEXT) : null}
+                                    {value.TEXTO !== undefined ? parse(value.TEXTO) : null}
+                                </>
+                                : location.pathname.endsWith('acerca') || location.pathname.endsWith('awards') ?
+                                <>
+                                    {value.TEXTO !== undefined ? parse(value.TEXTO) : null}
+                                    aaaaaaaaa
                                 </>
                                 :
                                 <>
                                     {/* si no es ninguno de los anteriores, no muestres nada*/}
+                                    
                                 </> }
                                 { 
                                     location.pathname.startsWith("/agregar/") ?

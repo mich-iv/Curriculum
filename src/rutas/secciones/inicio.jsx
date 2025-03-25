@@ -1,7 +1,10 @@
 import React from 'react'
-import MostrarTexto from '../../Componentes/MostrarTexto.jsx';
+import MostrarTexto from '../../componentes/MostrarTexto.jsx';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
+import '../../estilos/App.css';
+import '../../estilos/Paginas.css';
+import '../../estilos/Menu.css';
 
 export default function Route(){
     const [abrir, setAbrir] = useState(false);

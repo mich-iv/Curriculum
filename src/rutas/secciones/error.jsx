@@ -1,7 +1,7 @@
 import React from 'react'
-import MostrarTexto from '../../Componentes/MostrarTexto.jsx';
+import MostrarTexto from '../../componentes/MostrarTexto.jsx';
 import { Helmet } from 'react-helmet';
-import Menu from '../../routes/Menu.jsx';
+import Menu from '../menu/Menu.jsx';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

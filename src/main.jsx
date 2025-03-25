@@ -1,64 +1,44 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import {BrowserRouter, Routes, Route, createBrowserRouter} from 'react-router-dom'
 import {createHashRouter, RouterProvider} from 'react-router-dom'
 
-import Home from './routes/secciones/home.jsx'
-import Awards from './routes/secciones/awards.jsx'
-import BookChapters from './routes/secciones/bookChapters.jsx'
-import JournalPublications from './routes/secciones/journalPublications.jsx'
-import ConferencePapers from './routes/secciones/conferencePapers.jsx'
-import Projects from './routes/secciones/projects.jsx'
-import Books from './routes/secciones/books.jsx'
-import Students from './routes/secciones/students.jsx'
-import Code from './routes/secciones/code.jsx'
-import Login from './routes/usuario/login.jsx'
-import Agregar from './routes/usuario/agregar.jsx'
-import App from './App.jsx'
-import Error from './routes/secciones/error.jsx'
+import Home from './rutas/secciones/inicio.jsx'
+import Awards from './rutas/secciones/acerca.jsx'
+import Books from './rutas/secciones/experiencia.jsx'
+import Login from './rutas/usuario/login.jsx'
+import Agregar from './rutas/datos/agregar.jsx'
+import Error from './rutas/secciones/error.jsx'
+import Menu from './rutas/menu/Menu.jsx'
+import Inicio from './rutas/secciones/inicio.jsx'
+import Acerca from './rutas/secciones/acerca.jsx'
+import Experiencia from './rutas/secciones/experiencia.jsx'
+import Plantilla from './rutas/secciones/plantilla.jsx'
 
 import { HelmetProvider } from 'react-helmet-async';
+import Informacion from './rutas/secciones/informacion.jsx'
 
-const router = createHashRouter([
+const router = createBrowserRouter([
   {
     path:'/',
-    element: <App style={"secciones"}/>,
+    element: <Plantilla style={"secciones"}/>,
     errorElement: <Error/>,
     children: [
       {
         path:'/',
-        element: <Home/>
+        element: <Inicio/>
       },
       {
-        path:'/awards',
-        element: <Awards/>
+        path:'/acerca',
+        element: <Acerca/>
       },
       {
-        path:'/bookChapters',
-        element: <BookChapters/>
+        path:'/experiencia',
+        element: <Experiencia/>
       },
       {
-        path:'/journalPublications',
-        element: <JournalPublications/>
-      },
-      {
-        path:'/conferencePapers',
-        element: <ConferencePapers/>
-      },
-      {
-        path:'/projects',
-        element: <Projects/>
-      },
-      {
-        path:'/books',
-        element: <Books/>
-      },
-      {
-        path:'/students',
-        element: <Students/>
-      },
-      {
-        path:'/code',
-        element: <Code/>
+        path:'/informacion',
+        element: <Informacion/>
       },
       {
         path:'/login',
@@ -76,6 +56,23 @@ ReactDOM.createRoot(document.getElementById('raiz')).render(
   <HelmetProvider>
     <React.StrictMode>
       <RouterProvider router={router} future={{v7_startTransition: true,v7_relativeSplatPath: true,}}/>
+      {/* <BrowserRouter future={{
+        v7_relativeSplatPath: true,
+        v7_startTransition: true,
+      }}>
+        <div className='menu'>
+          <Menu/>
+        </div>
+        <div className='contenido'>
+          <Routes>
+            <Route path="/" element={<Plantilla />} />
+            <Route path="/acerca" element={<Acerca/>} />
+            <Route path="/experiencia" element={<Experiencia />} />
+            <Route path="/agregar/*" element={<Agregar />} />
+            <Route path="*" element={<Error />} />
+          </Routes>
+        </div>
+      </BrowserRouter> */}
     </React.StrictMode>
   </HelmetProvider>,
 )

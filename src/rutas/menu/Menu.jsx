@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth';
-import '../estilos/App.css';
+import '../../estilos/App.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faBars } from '@fortawesome/free-solid-svg-icons';
@@ -138,15 +138,10 @@ export default function Menu() {
         <div className='menu-desplegar'>
           <div className='menu-secciones'>
             <div className='menu-secciones-izquierda'>
-              <Link className="menu-secciones-izquierda-links" to="/">Home</Link>
-              <Link className="menu-secciones-izquierda-links" to="/journalPublications">Journal Publications</Link>
-              <Link className="menu-secciones-izquierda-links" to="/conferencePapers">Select Conference Papers</Link>
-              <Link className="menu-secciones-izquierda-links" to="/bookChapters">Book Chapters</Link>
-              <Link className="menu-secciones-izquierda-links" to="/books">Books</Link>
-              <Link className="menu-secciones-izquierda-links" to="/projects">Projects</Link>
-              <Link className="menu-secciones-izquierda-links" to="/students">Students</Link>
-              <Link className="menu-secciones-izquierda-links" to="/code">Code</Link>
-              <Link className="menu-secciones-izquierda-links" to="/awards">Awards</Link>
+              <Link className="menu-secciones-izquierda-links" to="/">Inicio</Link>
+              <Link className="menu-secciones-izquierda-links" to="/acerca">Acerca de mi</Link>
+              <Link className="menu-secciones-izquierda-links" to="/experiencia">Experiencia</Link>
+              <Link className="menu-secciones-izquierda-links" to="/informacion">Información</Link>
             </div>
             <div className='menu-secciones-derecha'>
                 {/*POR FIN ENTENDÍ ESTA FUNCIÓN  *ternaria
